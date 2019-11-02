@@ -13,7 +13,6 @@ function setupGame() {
   const cells = [] 
   let score = 0
   let lives = 3
-  let ghostOptions = []
   let ghostHistory = [0, 0]
   let frightened = false
 
@@ -96,7 +95,7 @@ function setupGame() {
 
     // console.log('ghost: ', ghost)
 
-    ghostOptions = [getNeighbourCell(ghost, 'up'), getNeighbourCell(ghost, 'right'), getNeighbourCell(ghost, 'down'), getNeighbourCell(ghost, 'left')]
+    let ghostOptions = [getNeighbourCell(ghost, 'up'), getNeighbourCell(ghost, 'right'), getNeighbourCell(ghost, 'down'), getNeighbourCell(ghost, 'left')]
     // console.log('All cells around: ', ghostOptions)
 
     ghostOptions = ghostOptions.filter((option) => {
@@ -108,11 +107,10 @@ function setupGame() {
     let newGhost = 0
     if (ghostOptions.length > 1) {
 
-      const distances = []
       let minDistance = 30 // theoretical maximum
       let maxDistance = 0 // theoretical minimum
 
-      ghostOptions.forEach((cell) => {
+      const distances = ghostOptions.map((cell) => {
 
         const playerXY = getXY(player)
         const newGhostXY = getXY(cell)
@@ -124,7 +122,7 @@ function setupGame() {
         distance < minDistance ? minDistance = distance : minDistance
         distance > maxDistance ? maxDistance = distance : maxDistance
 
-        distances.push(distance)
+        return distance
 
         // console.log(cell, distance, minDistance, maxDistance)
       })
@@ -188,8 +186,15 @@ function setupGame() {
         newPosition.classList.remove('energizer')
         frightened = true
 
+        cells.forEach((cell) => {
+          cell.classList.add('frightened')
+        })
+
         setTimeout(() => {
           frightened = false
+          cells.forEach((cell) => {
+            cell.classList.remove('frightened')
+          })
         }, 10000)
 
       }

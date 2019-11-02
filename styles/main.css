@@ -58,6 +58,10 @@ body {
   background: blueviolet;
 }
 
+.frightened.ghost {
+  background: violet;
+}
+
 
 #stats {
   font-family: 'Open Sans Condensed', sans-serif;
