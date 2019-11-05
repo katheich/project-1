@@ -28,7 +28,7 @@ function main() {
   messageScreen.appendChild(logo)
 
   const button = document.createElement('button')
-  button.innerHTML = 'Start Game'
+  button.innerHTML = 'Start game'
   button.addEventListener('click', runGame)
   messageScreen.appendChild(button)
 
