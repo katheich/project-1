@@ -114,16 +114,11 @@ function main() {
 
     const ghost = ghostHistory[0]
 
-    // console.log('ghost: ', ghost)
-
     let ghostOptions = [getNeighbourCell(ghost, 'up'), getNeighbourCell(ghost, 'right'), getNeighbourCell(ghost, 'down'), getNeighbourCell(ghost, 'left')]
-    // console.log('All cells around: ', ghostOptions)
 
     ghostOptions = ghostOptions.filter((option) => {
       return !(cells[option].classList.contains('wall') || option === ghostHistory[1])
     })
-
-    // console.log('Viable options: ', ghostOptions)
 
     let newGhost = 0
     if (ghostOptions.length > 1) {
@@ -144,8 +139,6 @@ function main() {
         distance > maxDistance ? maxDistance = distance : maxDistance
 
         return distance
-
-        // console.log(cell, distance, minDistance, maxDistance)
       })
 
       if (!frightened) {
@@ -322,7 +315,7 @@ function main() {
         ghostHistories[i] = moveGhost(ghostHistories[i])
       }
 
-    }, 400)
+    }, 300)
 
   }
    
