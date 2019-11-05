@@ -209,9 +209,9 @@ function main() {
         const playerXY = getXY(player)
         const newGhostXY = getXY(cell)
 
-        let distance = Math.sqrt((playerXY[0] - newGhostXY[0]) ** 2 + (playerXY[1] - newGhostXY[1]) ** 2)
+        const distance = Math.sqrt((playerXY[0] - newGhostXY[0]) ** 2 + (playerXY[1] - newGhostXY[1]) ** 2)
         
-        cells[cell].classList.contains('ghostpen') ? distance += 15 : distance
+        // cells[cell].classList.contains('ghostpen') ? distance += 15 : distance
 
         distance < minDistance ? minDistance = distance : minDistance
         distance > maxDistance ? maxDistance = distance : maxDistance
