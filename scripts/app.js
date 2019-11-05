@@ -168,6 +168,7 @@ function main() {
       } else {
         cells[player].classList.remove('player')
         player = 178
+        playerShadow = []
         cells[player].classList.add('player')
         return ghostHistory
       }
