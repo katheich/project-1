@@ -37,14 +37,17 @@ function main() {
 
     grid.appendChild(messageScreen)
 
+    const logo = document.createElement('img')
+
     if (state === 'win') {
       messageScreen.innerHTML = `You won! Your score was ${score}`
+      logo.setAttribute('src', 'https://media.giphy.com/media/3iBcRAErFhFwoTVbN5/giphy.gif')
+
     } else if (state === 'lose') {
       messageScreen.innerHTML = `Game-over! Your score was ${score}`
+      logo.setAttribute('src', 'images/cat-defeat.png')
     }
 
-    const logo = document.createElement('img')
-    logo.setAttribute('src', 'images/cat-logo.png')
     messageScreen.appendChild(logo)
 
     const button = document.createElement('button')
@@ -73,7 +76,37 @@ function main() {
     }
   }
 
-  // GHOST HITS PLAYER 
+  // ENERGIZE
+  function energize() {
+
+    // IF NOT FRIGHTENED ALREADY
+    if (frightened === false ) {
+      frightened = true
+
+      cells.forEach((cell) => {
+        cell.classList.add('frightened')
+      })
+
+      energizerTimeout = setTimeout(() => {
+        frightened = false
+        cells.forEach((cell) => {
+          cell.classList.remove('frightened')
+        })
+      }, 10000)
+
+    // IF ALREADY FRIGHTENED
+    } else {       
+      clearTimeout(energizerTimeout)
+      energizerTimeout = setTimeout(() => {
+        frightened = false
+        cells.forEach((cell) => {
+          cell.classList.remove('frightened')
+        })
+      }, 10000)
+    }
+  }
+
+  // PLAYER COLLIDES WITH GHOST
   function collideWithGhost(ghostHistory) {
 
     console.log('COLLISION')
@@ -103,23 +136,19 @@ function main() {
   }
 
 
-  // GHOST MOVEMENT
-
-  // current ghost position: ghost
-  // all options of ghost positions: ghostOptions = [up, right, down, left]
-  // new ghost position: newGhost (index in array ghostOptions)
-  // tracking history of ghost position: ghostHistory
-  
+  // GHOST MOVEMENT  
   function moveGhost(ghostHistory) {
 
     const ghost = ghostHistory[0]
 
     let ghostOptions = [getNeighbourCell(ghost, 'up'), getNeighbourCell(ghost, 'right'), getNeighbourCell(ghost, 'down'), getNeighbourCell(ghost, 'left')]
 
+    // DISCARD WALLS AND PREVIOUS LOCATION
     ghostOptions = ghostOptions.filter((option) => {
       return !(cells[option].classList.contains('wall') || option === ghostHistory[1])
     })
 
+    // SET NEW POSITION
     let newGhost = 0
     if (ghostOptions.length > 1) {
 
@@ -146,12 +175,9 @@ function main() {
       } else {
         newGhost = distances.indexOf(maxDistance)
       }
-      
-      // RANDOM CHOICE 
-      // newGhost =  Math.floor(Math.random() * ghostOptions.length)
     }
 
-    // check whether other ghost on new ghost cell
+    // OTHER GHOST COLLISION
     if (cells[ghostOptions[newGhost]].classList.contains('ghost')) {
       ghostHistory = ghostHistory.reverse()
     } else {
@@ -160,7 +186,7 @@ function main() {
     cells[ghostHistory[1]].classList.remove('ghost')
     cells[ghostHistory[0]].classList.add('ghost')
 
-    // check whether player on new ghost cell
+    // COLLISION WITH PLAYER
     if (cells[ghostHistory[0]].classList.contains('player')) {
       ghostHistory = collideWithGhost(ghostHistory)
     } 
@@ -174,14 +200,13 @@ function main() {
 
     const newPosition = cells[cellIndex]
 
+    // DO NOTHING IF MOVING INTO WALL OR GHOST PEN
     if (newPosition.classList.contains('wall') || newPosition.classList.contains('ghostpen')) {
-      return
+      return player
 
     } else {
-      cells[player].classList.remove('player')
-      newPosition.classList.add('player')
-      player = cellIndex
 
+      // FOOD
       if (newPosition.classList.contains('food')) {
         newPosition.classList.remove('food')
         score += 1
@@ -192,6 +217,7 @@ function main() {
           endGame('win')
         }
 
+      // GHOST
       } else if (newPosition.classList.contains('ghost')) {
         for (let i = 0; i < 4; i++) {
           if (ghostHistories[i].includes(player)) {
@@ -199,37 +225,28 @@ function main() {
           }
         }
         
-
+      // ENERGIZER
       } else if (newPosition.classList.contains('energizer')) {
         console.log('ENERGIZED')
         newPosition.classList.remove('energizer')
 
-        if (frightened === false ) {
-          frightened = true
-
-          cells.forEach((cell) => {
-            cell.classList.add('frightened')
-          })
-
-          energizerTimeout = setTimeout(() => {
-            frightened = false
-            cells.forEach((cell) => {
-              cell.classList.remove('frightened')
-            })
-          }, 10000)
-
-        } else {       
-          clearTimeout(energizerTimeout)
-          energizerTimeout = setTimeout(() => {
-            frightened = false
-            cells.forEach((cell) => {
-              cell.classList.remove('frightened')
-            })
-          }, 10000)
-        }
-
+        energize()
       }
+
+      return cellIndex
     }
+  }
+
+  // ASSIGN AND CLEAR PLAYER CLASSES BASED ON NEW AND PREVIOUS POSITION
+  function assignPlayer(newPosition, oldPosition, direction) {
+    cells[oldPosition].classList.remove('player')
+    cells[oldPosition].classList.remove('up')
+    cells[oldPosition].classList.remove('right')
+    cells[oldPosition].classList.remove('down')
+    cells[oldPosition].classList.remove('left')
+
+    cells[newPosition].classList.add('player')
+    cells[newPosition].classList.add(direction)
   }
 
   document.addEventListener('keydown', e => {
@@ -238,28 +255,47 @@ function main() {
 
       case 'w': {
         const cellIndex = getNeighbourCell(player, 'up')
-        movePlayer(cellIndex)
+        const oldPosition = player        
+        player = movePlayer(cellIndex)
+        const newPosition = player
+
+        assignPlayer(newPosition, oldPosition, 'up')        
         // console.log(getXY(player))
         break
       }
 
       case 'd': {
         const cellIndex = getNeighbourCell(player, 'right')
-        movePlayer(cellIndex)
+        const oldPosition = player        
+        player = movePlayer(cellIndex)
+        const newPosition = player
+
+        assignPlayer(newPosition, oldPosition, 'right')      
+
         // console.log(getXY(player))
         break
       }
 
       case 's': {
         const cellIndex = getNeighbourCell(player, 'down')
-        movePlayer(cellIndex)
+        const oldPosition = player        
+        player = movePlayer(cellIndex)
+        const newPosition = player
+
+        assignPlayer(newPosition, oldPosition, 'down')      
+
         // console.log(getXY(player))
         break
       } 
 
       case 'a': {
         const cellIndex = getNeighbourCell(player, 'left')
-        movePlayer(cellIndex)
+        const oldPosition = player        
+        player = movePlayer(cellIndex)
+        const newPosition = player
+
+        assignPlayer(newPosition, oldPosition, 'left')      
+
         // console.log(getXY(player))
         break
       }
@@ -302,6 +338,7 @@ function main() {
       // cell.innerHTML = i
     }  
 
+    // SET INITIAL PLAYER AND GHOST LOCATIONS
     cells[player].classList.add('player')
 
     for (let i = 0; i < 4; i++) {
@@ -309,12 +346,11 @@ function main() {
       cells[ghost].classList.add('ghost')
     }
     
+    // MOVE GHOSTS
     ghostInterval = setInterval(() => {
-
       for (let i = 0; i < 4; i++) {
         ghostHistories[i] = moveGhost(ghostHistories[i])
       }
-
     }, 300)
 
   }

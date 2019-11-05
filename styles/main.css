@@ -62,6 +62,22 @@ body {
   background-image: url(../images/vacuum.png);
 }
 
+.player.up {
+  background-image: url(../images/vacuum.png);
+}
+
+.player.right {
+  background-image: url(../images/vacuum90.png);
+}
+
+.player.down {
+  background-image: url(../images/vacuum180.png);
+}
+
+.player.left {
+  background-image: url(../images/vacuum270.png);
+}
+
 .ghost {
   /* background: blueviolet; */
   background-image: url(../images/cat.png);
@@ -114,4 +130,5 @@ button {
 img {
   height: 20%;
   margin: 30px 0 0 0;
+  border-radius: 10px;
 }
