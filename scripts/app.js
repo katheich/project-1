@@ -32,6 +32,10 @@ function main() {
   button.addEventListener('click', runGame)
   messageScreen.appendChild(button)
 
+  const instructions = document.createElement('img')
+  instructions.setAttribute('src', 'images/instructions.png')
+  messageScreen.appendChild(instructions)
+
 
   // END GAME FUNCTION
   function endGame(state) {
