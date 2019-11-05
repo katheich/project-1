@@ -29,12 +29,34 @@ function main() {
 
   const button = document.createElement('button')
   button.innerHTML = 'Start game'
-  button.addEventListener('click', runGame)
+  button.addEventListener('click', countdownScreen)
   messageScreen.appendChild(button)
 
-  const instructions = document.createElement('img')
-  instructions.setAttribute('src', 'images/instructions.png')
-  messageScreen.appendChild(instructions)
+  // COUNTDOWN / INSTRUCTIONS SCREEN
+  function countdownScreen() {
+
+    messageScreen.innerHTML = ''
+
+    let counter = 3
+    const startCountdown = document.createElement('div')
+    startCountdown.classList.add('startCountdown')
+    startCountdown.innerHTML = counter
+    messageScreen.appendChild(startCountdown)
+
+    const instructions = document.createElement('img')
+    instructions.setAttribute('src', 'images/instructions.png')
+    messageScreen.appendChild(instructions)
+
+    const starterInterval = setInterval(() => {
+      counter -= 1
+      startCountdown.innerHTML = counter
+    }, 1000)
+
+    setTimeout(() => {
+      clearInterval(starterInterval)
+      runGame()
+    }, 3000)
+  }
 
 
   // END GAME FUNCTION
@@ -60,7 +82,7 @@ function main() {
 
     const button = document.createElement('button')
     button.innerHTML = 'Play again'
-    button.addEventListener('click', runGame)
+    button.addEventListener('click', countdownScreen)
     messageScreen.appendChild(button)
 
     cells = []
