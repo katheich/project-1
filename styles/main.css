@@ -38,27 +38,22 @@ body {
 }
 
 .wall {
-  /* background-color: darkgray; */
   background-image: url(../images/chairs.png);
 }
 
 .food {
-  /* background-color: lightskyblue; */
   background-image: url(../images/dust.png);
 }
 
 .energizer {
-  /* background-color: gold; */
   background-image: url(../images/sock.png);
 }
 
 .ghostpen {
-  /* background: lightgray; */
   background-image: url(../images/ghostpen.png);
 }
 
 .player {
-  /* background: red; */
   background-image: url(../images/vacuum.png);
 }
 
@@ -79,12 +74,10 @@ body {
 }
 
 .ghost {
-  /* background: blueviolet; */
   background-image: url(../images/cat.png);
 }
 
 .frightened.ghost {
-  /* background: violet; */
   background-image: url(../images/cat-frightened.png);
 }
 
@@ -107,6 +100,18 @@ h1 {
   height: 120px;
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 20px;
+}
+
+.size {
+  min-height: 60px;
+  width: 100%;
+  margin: 10px;
+}
+
+#countdown {
+  text-align: center;
+  font-size: 50px;
+  color: #7429d0;
 }
 
 button {

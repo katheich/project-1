@@ -6,17 +6,21 @@ function main() {
   const scoreCounter = document.getElementById('score')
   const lifeCounter = document.getElementById('lives')
   const messageScreen = document.querySelector('.message')
+  const countdown = document.getElementById('countdown')
 
   let cells = [] 
   let score = 0
   let lives = 3
   let ghostInterval
-  let energizerTimeout
 
   let player
+  let playerShadow = []
   let ghostHistories = []
   let frightened 
   let foodCount
+  let energizerTimeout
+  let countdownInterval
+  let countdownValue
 
   // STARTING SCREEN 
   const logo = document.createElement('img')
@@ -40,11 +44,11 @@ function main() {
     const logo = document.createElement('img')
 
     if (state === 'win') {
-      messageScreen.innerHTML = `You won! Your score was ${score}`
+      messageScreen.innerHTML = `You won! Your score was ${score}.`
       logo.setAttribute('src', 'https://media.giphy.com/media/3iBcRAErFhFwoTVbN5/giphy.gif')
 
     } else if (state === 'lose') {
-      messageScreen.innerHTML = `Game-over! Your score was ${score}`
+      messageScreen.innerHTML = `Game-over! Your score was ${score}.`
       logo.setAttribute('src', 'images/cat-defeat.png')
     }
 
@@ -56,6 +60,7 @@ function main() {
     messageScreen.appendChild(button)
 
     cells = []
+    playerShadow = []
   }
 
   // GET X AND Y COORDINATE OF ANY CELL
@@ -79,6 +84,9 @@ function main() {
   // ENERGIZE
   function energize() {
 
+    countdownValue = 10
+    countdown.innerHTML = countdownValue
+
     // IF NOT FRIGHTENED ALREADY
     if (frightened === false ) {
       frightened = true
@@ -87,23 +95,36 @@ function main() {
         cell.classList.add('frightened')
       })
 
+      countdownInterval = setInterval(() => {
+        countdownValue -= 1
+        countdown.innerHTML = countdownValue
+      }, 1000)
+
       energizerTimeout = setTimeout(() => {
         frightened = false
         cells.forEach((cell) => {
           cell.classList.remove('frightened')
         })
+        clearInterval(countdownInterval)
+        countdown.innerHTML = ''
       }, 10000)
 
     // IF ALREADY FRIGHTENED
-    } else {       
+    } else {   
+
       clearTimeout(energizerTimeout)
+
       energizerTimeout = setTimeout(() => {
         frightened = false
         cells.forEach((cell) => {
           cell.classList.remove('frightened')
         })
+        clearInterval(countdownInterval)
+        countdown.innerHTML = ''
       }, 10000)
+      
     }
+    
   }
 
   // PLAYER COLLIDES WITH GHOST
@@ -127,10 +148,12 @@ function main() {
 
     } else {
       score += 100
+      scoreCounter.innerHTML = score
       
       ghostHistory = [241, ghostHistory[0]]
       cells[ghostHistory[1]].classList.remove('ghost')
       cells[ghostHistory[0]].classList.add('ghost')
+
       return ghostHistory
     }
   }
@@ -187,7 +210,7 @@ function main() {
     cells[ghostHistory[0]].classList.add('ghost')
 
     // COLLISION WITH PLAYER
-    if (cells[ghostHistory[0]].classList.contains('player')) {
+    if (cells[ghostHistory[0]].classList.contains('player') || playerShadow.includes(ghostHistory[0])) {
       ghostHistory = collideWithGhost(ghostHistory)
     } 
     // console.log('Ghost history at end of move: ', ghostHistory)
@@ -259,7 +282,8 @@ function main() {
         player = movePlayer(cellIndex)
         const newPosition = player
 
-        assignPlayer(newPosition, oldPosition, 'up')        
+        assignPlayer(newPosition, oldPosition, 'up')
+        playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]   
         // console.log(getXY(player))
         break
       }
@@ -271,7 +295,7 @@ function main() {
         const newPosition = player
 
         assignPlayer(newPosition, oldPosition, 'right')      
-
+        playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         // console.log(getXY(player))
         break
       }
@@ -283,7 +307,7 @@ function main() {
         const newPosition = player
 
         assignPlayer(newPosition, oldPosition, 'down')      
-
+        playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         // console.log(getXY(player))
         break
       } 
@@ -295,7 +319,7 @@ function main() {
         const newPosition = player
 
         assignPlayer(newPosition, oldPosition, 'left')      
-
+        playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         // console.log(getXY(player))
         break
       }
@@ -305,6 +329,8 @@ function main() {
 
   // GAME FUNCTION
   function runGame() {
+
+    console.log('new game')
 
     grid.removeChild(messageScreen)
 
@@ -316,7 +342,7 @@ function main() {
     player = 178
     ghostHistories = [[22, 23], [40, 61], [400, 379], [418, 417]]
     frightened = false
-    const board = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 3, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 3, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 4, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 4, 4, 4, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 4, 4, 4, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 3, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 3, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]  
+    const board = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 3, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 3, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 4, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 4, 4, 4, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 4, 4, 4, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 4, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 3, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 3, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]  
     foodCount = 200
     
     // SET UP GAME BOARD
@@ -352,9 +378,7 @@ function main() {
         ghostHistories[i] = moveGhost(ghostHistories[i])
       }
     }, 300)
-
   }
-   
 }
 
 
