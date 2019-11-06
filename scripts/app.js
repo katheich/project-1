@@ -27,7 +27,6 @@ function main() {
   let countdownValue
   let nameForm
 
-
   // NON-GAME SCREENS ======================================================================================
 
   // STARTING SCREEN 
@@ -111,10 +110,9 @@ function main() {
     }
   }
 
-  // GET LOCAL HIGH SCORES
+  // LOCAL HIGH SCORES SCREEN
   function getHighScores() {
     const name = nameForm.value
-
 
     if (!localStorage.getItem('gameScores')) {
       const playersScores = []
@@ -143,7 +141,6 @@ function main() {
     scoreBoard.appendChild(scoreTitle)
 
     let spot = 0
-
     scoresArray.forEach(player => {
 
       spot++
@@ -152,8 +149,6 @@ function main() {
       place.classList.add('score')
       place.innerHTML = `${spot}. ${player.name}: ${player.score}`
       scoreBoard.appendChild(place)
-
-
     })
 
     const button = document.createElement('button')
@@ -161,10 +156,8 @@ function main() {
     button.addEventListener('click', countdownScreen)
     messageScreen.appendChild(button)
 
-
     localStorage.setItem('gameScores', JSON.stringify(scoresArray))
   }
-
 
   // MISC USEFUL FUNCTIONS ======================================================================================
 
@@ -185,7 +178,6 @@ function main() {
       case 'left' : return position % 21 === 0 ? position + 20 : position - 1
     }
   }
-
 
   // GHOST MOVEMENT ======================================================================================
 
@@ -277,9 +269,7 @@ function main() {
         
       // ENERGIZER
       } else if (newPosition.classList.contains('energizer')) {
-        console.log('ENERGIZED')
         newPosition.classList.remove('energizer')
-
         energize()
       }
 
@@ -289,14 +279,8 @@ function main() {
 
   // ASSIGN AND CLEAR PLAYER CLASSES BASED ON NEW AND PREVIOUS POSITION
   function assignPlayer(newPosition, oldPosition, direction) {
-    cells[oldPosition].classList.remove('player')
-    cells[oldPosition].classList.remove('up')
-    cells[oldPosition].classList.remove('right')
-    cells[oldPosition].classList.remove('down')
-    cells[oldPosition].classList.remove('left')
-
-    cells[newPosition].classList.add('player')
-    cells[newPosition].classList.add(direction)
+    cells[oldPosition].classList.remove('player', 'up', 'right', 'down', 'left')
+    cells[newPosition].classList.add('player', direction)
   }
 
   document.addEventListener('keydown', e => {
@@ -310,8 +294,7 @@ function main() {
         const newPosition = player
 
         assignPlayer(newPosition, oldPosition, 'up')
-        playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]   
-        // console.log(getXY(player))
+        playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         break
       }
 
@@ -323,7 +306,6 @@ function main() {
 
         assignPlayer(newPosition, oldPosition, 'right')      
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
-        // console.log(getXY(player))
         break
       }
 
@@ -335,7 +317,6 @@ function main() {
 
         assignPlayer(newPosition, oldPosition, 'down')      
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
-        // console.log(getXY(player))
         break
       } 
 
@@ -347,12 +328,10 @@ function main() {
 
         assignPlayer(newPosition, oldPosition, 'left')      
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
-        // console.log(getXY(player))
         break
       }
     }
   })
-
 
   // GAME MECHANICS ======================================================================================
 
@@ -405,8 +384,6 @@ function main() {
   // PLAYER COLLIDES WITH GHOST
   function collideWithGhost(ghostHistory) {
 
-    console.log('COLLISION')
-
     if (!frightened) {
       lives -= 1
       lifeCounter.innerHTML = lives
@@ -434,12 +411,9 @@ function main() {
     }
   }
 
-
   // GAME FUNCTION ======================================================================================
 
   function runGame() {
-
-    console.log('new game')
 
     grid.removeChild(messageScreen)
 
@@ -470,8 +444,6 @@ function main() {
 
       grid.appendChild(cell)
       cells.push(cell)
-
-      // cell.innerHTML = i
     }  
 
     // SET INITIAL PLAYER AND GHOST LOCATIONS
@@ -490,6 +462,5 @@ function main() {
     }, 300)
   }
 }
-
 
 document.addEventListener('DOMContentLoaded', main)
