@@ -30,7 +30,7 @@ body {
   padding: 5px;
 }
 
-.grid div {
+.grid div.cell {
   border: 1px solid white;
   flex-grow: 1;
   height: 4.76%;
@@ -92,7 +92,7 @@ h1 {
   margin: 0 -90px 0 0;
 }
 
-.column {
+#sidebar {
   display: flex;
   flex-direction: column;
   align-content: flex-start;
@@ -100,6 +100,18 @@ h1 {
   height: 120px;
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 20px;
+}
+
+.column {
+  width: 20%;
+}
+
+#title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  height: 85vh;
 }
 
 .size {
@@ -117,8 +129,18 @@ h1 {
 button {
   padding: 5px 15px;
   width: 20%;
-  background: white;
-  
+  background-color: white;
+  border: 1px solid #d7d7d7;
+}
+
+input {
+  margin: 10px;
+  padding: 5px 15px; 
+  font-size: 14px;
+  width: 30%;
+  background-color: white;
+  border: 1px solid #d7d7d7;
+  color: #d7d7d7;
 }
 
 .grid div.message {
@@ -143,3 +165,24 @@ img {
   margin: 30px 0;
   border-radius: 10px;
 }
+
+h2 {
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 30px;
+  margin: 15px;
+}
+
+#scoreboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 25px 0;
+}
+
+div.score {
+  width: 30%;
+  margin: 5px;
+}
+

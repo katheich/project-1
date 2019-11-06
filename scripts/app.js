@@ -2,27 +2,30 @@ function main() {
 
   // VARIABLES ======================================================================================
 
-  // HTML elements
+  // HTML ELEMENTS
   const grid = document.querySelector('.grid')
   const scoreCounter = document.getElementById('score')
   const lifeCounter = document.getElementById('lives')
   const messageScreen = document.querySelector('.message')
   const countdown = document.getElementById('countdown')
 
-  // Game variables
+  // SET PARAMETERS
   const width = 21
-  let cells = [] 
   let score = 0
   let lives = 3
-  let ghostInterval
+
+  // EMPTY PLACEHOLDERS
+  let cells = [] 
+  let foodCount
+  let frightened 
   let player
   let playerShadow = []
   let ghostHistories = []
-  let frightened 
-  let foodCount
+  let ghostInterval
   let energizerTimeout
   let countdownInterval
   let countdownValue
+  let nameForm
 
 
   // NON-GAME SCREENS ======================================================================================
@@ -63,39 +66,105 @@ function main() {
     }, 3000)
   }
 
-
-  // END GAME FUNCTION ======================================================================================
-
+  // END GAME SCREEN
   function endGame(state) {
 
+    // CLEAR VARIABLES
     clearInterval(ghostInterval)
-    grid.innerHTML = ''
+    grid.innerHTML = '' 
+    cells = []
+    playerShadow = []
 
     grid.appendChild(messageScreen)
 
-    const logo = document.createElement('img')
-
+    // VICTORY SCREEN
     if (state === 'win') {
       messageScreen.innerHTML = `You won! Your score was ${score}.`
-      logo.setAttribute('src', 'https://media.giphy.com/media/3iBcRAErFhFwoTVbN5/giphy.gif')
 
+      const logo = document.createElement('img')
+      logo.setAttribute('src', 'https://media.giphy.com/media/3iBcRAErFhFwoTVbN5/giphy.gif')
+      messageScreen.appendChild(logo)
+
+      nameForm = document.createElement('input')
+      nameForm.setAttribute('type', 'text')
+      nameForm.setAttribute('placeholder', 'Enter your name')
+      messageScreen.appendChild(nameForm)
+
+      const submitButton = document.createElement('button')
+      submitButton.innerHTML = 'Submit'
+      submitButton.addEventListener('click', getHighScores)
+      messageScreen.appendChild(submitButton)
+
+
+    // DEFEAT SCREEN
     } else if (state === 'lose') {
       messageScreen.innerHTML = `Game-over! Your score was ${score}.`
+
+      const logo = document.createElement('img')
       logo.setAttribute('src', 'images/cat-defeat.png')
+      messageScreen.appendChild(logo)
+
+      const button = document.createElement('button')
+      button.innerHTML = 'Play again'
+      button.addEventListener('click', countdownScreen)
+      messageScreen.appendChild(button)
+    }
+  }
+
+  // GET LOCAL HIGH SCORES
+  function getHighScores() {
+    const name = nameForm.value
+
+
+    if (!localStorage.getItem('gameScores')) {
+      const playersScores = []
+      playersScores.push({ name, score })
+      localStorage.setItem('gameScores', JSON.stringify(playersScores))
+
+    } else {
+      const playersScores = JSON.parse(localStorage.getItem('gameScores'))
+      playersScores.push({ name, score })
+      localStorage.setItem('gameScores', JSON.stringify(playersScores))
     }
 
-    messageScreen.appendChild(logo)
+    let scoresArray = JSON.parse(localStorage.getItem('gameScores'))
+    scoresArray = scoresArray.sort(function(a, b) { return b.score - a.score } )
+
+    scoresArray = scoresArray.slice(0, 10)
+
+    messageScreen.innerHTML = ''
+
+    const scoreBoard = document.createElement('div')
+    scoreBoard.setAttribute('id', 'scoreboard')
+    messageScreen.appendChild(scoreBoard)
+
+    const scoreTitle = document.createElement('h2')
+    scoreTitle.innerHTML = 'High Scores (locally)'
+    scoreBoard.appendChild(scoreTitle)
+
+    let spot = 0
+
+    scoresArray.forEach(player => {
+
+      spot++
+      
+      const place = document.createElement('div')
+      place.classList.add('score')
+      place.innerHTML = `${spot}. ${player.name}: ${player.score}`
+      scoreBoard.appendChild(place)
+
+
+    })
 
     const button = document.createElement('button')
     button.innerHTML = 'Play again'
     button.addEventListener('click', countdownScreen)
     messageScreen.appendChild(button)
 
-    // CLEAR VARIABLES
-    cells = []
-    playerShadow = []
+
+    localStorage.setItem('gameScores', JSON.stringify(scoresArray))
   }
-  
+
 
   // MISC USEFUL FUNCTIONS ======================================================================================
 
@@ -144,8 +213,6 @@ function main() {
         const newGhostXY = getXY(cell)
 
         const distance = Math.sqrt((playerXY[0] - newGhostXY[0]) ** 2 + (playerXY[1] - newGhostXY[1]) ** 2)
-        
-        // cells[cell].classList.contains('ghostpen') ? distance += 15 : distance
 
         distance < minDistance ? minDistance = distance : minDistance
         distance > maxDistance ? maxDistance = distance : maxDistance
@@ -173,7 +240,6 @@ function main() {
     if (cells[ghostHistory[0]].classList.contains('player') || playerShadow.includes(ghostHistory[0])) {
       ghostHistory = collideWithGhost(ghostHistory)
     } 
-    // console.log('Ghost history at end of move: ', ghostHistory)
 
     return ghostHistory
   }
@@ -288,7 +354,7 @@ function main() {
   })
 
 
-  // GAME MECHANICS
+  // GAME MECHANICS ======================================================================================
 
   // ENERGIZE
   function energize() {
@@ -391,6 +457,7 @@ function main() {
     // SET UP GAME BOARD
     for (let i = 0; i < width ** 2; i++){
       const cell = document.createElement('div')
+      cell.classList.add('cell')
 
       const cellClass = board[i] 
 
