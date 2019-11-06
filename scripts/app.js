@@ -1,18 +1,20 @@
 function main() {
 
-  // VARIABLES
-  const width = 21
+  // VARIABLES ======================================================================================
+
+  // HTML elements
   const grid = document.querySelector('.grid')
   const scoreCounter = document.getElementById('score')
   const lifeCounter = document.getElementById('lives')
   const messageScreen = document.querySelector('.message')
   const countdown = document.getElementById('countdown')
 
+  // Game variables
+  const width = 21
   let cells = [] 
   let score = 0
   let lives = 3
   let ghostInterval
-
   let player
   let playerShadow = []
   let ghostHistories = []
@@ -21,6 +23,9 @@ function main() {
   let energizerTimeout
   let countdownInterval
   let countdownValue
+
+
+  // NON-GAME SCREENS ======================================================================================
 
   // STARTING SCREEN 
   const logo = document.createElement('img')
@@ -59,7 +64,8 @@ function main() {
   }
 
 
-  // END GAME FUNCTION
+  // END GAME FUNCTION ======================================================================================
+
   function endGame(state) {
 
     clearInterval(ghostInterval)
@@ -85,9 +91,13 @@ function main() {
     button.addEventListener('click', countdownScreen)
     messageScreen.appendChild(button)
 
+    // CLEAR VARIABLES
     cells = []
     playerShadow = []
   }
+  
+
+  // MISC USEFUL FUNCTIONS ======================================================================================
 
   // GET X AND Y COORDINATE OF ANY CELL
   function getXY(position) {
@@ -107,86 +117,9 @@ function main() {
     }
   }
 
-  // ENERGIZE
-  function energize() {
 
-    countdownValue = 10
-    countdown.innerHTML = countdownValue
+  // GHOST MOVEMENT ======================================================================================
 
-    // IF NOT FRIGHTENED ALREADY
-    if (frightened === false ) {
-      frightened = true
-
-      cells.forEach((cell) => {
-        cell.classList.add('frightened')
-      })
-
-      countdownInterval = setInterval(() => {
-        countdownValue -= 1
-        countdown.innerHTML = countdownValue
-      }, 1000)
-
-      energizerTimeout = setTimeout(() => {
-        frightened = false
-        cells.forEach((cell) => {
-          cell.classList.remove('frightened')
-        })
-        clearInterval(countdownInterval)
-        countdown.innerHTML = ''
-      }, 10000)
-
-    // IF ALREADY FRIGHTENED
-    } else {   
-
-      clearTimeout(energizerTimeout)
-
-      energizerTimeout = setTimeout(() => {
-        frightened = false
-        cells.forEach((cell) => {
-          cell.classList.remove('frightened')
-        })
-        clearInterval(countdownInterval)
-        countdown.innerHTML = ''
-      }, 10000)
-      
-    }
-    
-  }
-
-  // PLAYER COLLIDES WITH GHOST
-  function collideWithGhost(ghostHistory) {
-
-    console.log('COLLISION')
-
-    if (!frightened) {
-      lives -= 1
-      lifeCounter.innerHTML = lives
-
-      if (lives === 0) {
-        endGame('lose')
-
-      } else {
-        cells[player].classList.remove('player')
-        player = 178
-        playerShadow = []
-        cells[player].classList.add('player')
-        return ghostHistory
-      }
-
-    } else {
-      score += 100
-      scoreCounter.innerHTML = score
-      
-      ghostHistory = [241, ghostHistory[0]]
-      cells[ghostHistory[1]].classList.remove('ghost')
-      cells[ghostHistory[0]].classList.add('ghost')
-
-      return ghostHistory
-    }
-  }
-
-
-  // GHOST MOVEMENT  
   function moveGhost(ghostHistory) {
 
     const ghost = ghostHistory[0]
@@ -245,7 +178,8 @@ function main() {
     return ghostHistory
   }
 
-  // PLAYER MOVEMENT
+  // PLAYER MOVEMENT ======================================================================================
+
   function movePlayer(cellIndex) {
 
     const newPosition = cells[cellIndex]
@@ -354,7 +288,89 @@ function main() {
   })
 
 
-  // GAME FUNCTION
+  // GAME MECHANICS
+
+  // ENERGIZE
+  function energize() {
+
+    countdownValue = 10
+    countdown.innerHTML = countdownValue
+
+    // IF NOT FRIGHTENED ALREADY
+    if (frightened === false ) {
+      frightened = true
+
+      cells.forEach((cell) => {
+        cell.classList.add('frightened')
+      })
+
+      countdownInterval = setInterval(() => {
+        countdownValue -= 1
+        countdown.innerHTML = countdownValue
+      }, 1000)
+
+      energizerTimeout = setTimeout(() => {
+        frightened = false
+        cells.forEach((cell) => {
+          cell.classList.remove('frightened')
+        })
+        clearInterval(countdownInterval)
+        countdown.innerHTML = ''
+      }, 10000)
+
+    // IF ALREADY FRIGHTENED
+    } else {   
+
+      clearTimeout(energizerTimeout)
+
+      energizerTimeout = setTimeout(() => {
+        frightened = false
+        cells.forEach((cell) => {
+          cell.classList.remove('frightened')
+        })
+        clearInterval(countdownInterval)
+        countdown.innerHTML = ''
+      }, 10000)
+      
+    }
+    
+  }
+
+  // PLAYER COLLIDES WITH GHOST
+  function collideWithGhost(ghostHistory) {
+
+    console.log('COLLISION')
+
+    if (!frightened) {
+      lives -= 1
+      lifeCounter.innerHTML = lives
+
+      if (lives === 0) {
+        endGame('lose')
+
+      } else {
+        cells[player].classList.remove('player')
+        player = 178
+        playerShadow = []
+        cells[player].classList.add('player')
+        return ghostHistory
+      }
+
+    } else {
+      score += 100
+      scoreCounter.innerHTML = score
+      
+      ghostHistory = [241, ghostHistory[0]]
+      cells[ghostHistory[1]].classList.remove('ghost')
+      cells[ghostHistory[0]].classList.add('ghost')
+
+      return ghostHistory
+    }
+  }
+
+
+  // GAME FUNCTION ======================================================================================
+
   function runGame() {
 
     console.log('new game')
