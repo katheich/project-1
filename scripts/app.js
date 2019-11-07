@@ -185,9 +185,7 @@ function main() {
 
   function moveGhost(ghostHistory) {
 
-    const ghost = ghostHistory[0]
-
-    let ghostOptions = [getNeighbourCell(ghost, 'up'), getNeighbourCell(ghost, 'right'), getNeighbourCell(ghost, 'down'), getNeighbourCell(ghost, 'left')]
+    let ghostOptions = [getNeighbourCell(ghostHistory[0], 'up'), getNeighbourCell(ghostHistory[0], 'right'), getNeighbourCell(ghostHistory[0], 'down'), getNeighbourCell(ghostHistory[0], 'left')]
 
     // DISCARD WALLS AND PREVIOUS LOCATION
     ghostOptions = ghostOptions.filter((option) => {
@@ -225,7 +223,7 @@ function main() {
     if (cells[ghostOptions[newGhost]].classList.contains('ghost')) {
       ghostHistory = ghostHistory.reverse()
     } else {
-      ghostHistory = [ghostOptions[newGhost], ghost]
+      ghostHistory = [ghostOptions[newGhost], ghostHistory[0]]
     }
     cells[ghostHistory[1]].classList.remove('ghost')
     cells[ghostHistory[0]].classList.add('ghost')

@@ -1,9 +1,9 @@
 ### General Assembly, Software Engineering Immersive
-# Project #1: Vac-Man
+# Project #1: Vac-Man ![Alt](/images/cat.png "Title")
 
 First project of the software engineering immersive course at GA London. The assignment was to create a grid-based game to be rendered in the browser, using HTML, CSS and JavaScript.
 
-
+Given a list of options from GA, I chose to re-create the classic game Pac-Man. Below I set out the basic approach and design decisions, 
 
 
 ## Approach and design choices
