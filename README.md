@@ -1,8 +1,6 @@
 ### General Assembly, Software Engineering Immersive
 # Project #1: Vac-Man
 
-## Introduction
-
 First project of the software engineering immersive course at GA London. The assignment was to create a grid-based game in the browser, using HTML, CSS and JavaScript.
 
 
