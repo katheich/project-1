@@ -121,9 +121,10 @@ h1 {
 }
 
 #countdown {
-  text-align: center;
   font-size: 50px;
   color: #7429d0;
+  text-align: left;
+  margin: 30px;
 }
 
 button {
@@ -186,3 +187,53 @@ div.score {
   margin: 5px;
 }
 
+#mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 641px) {
+
+  #mobile {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  #mobile img {
+    height: 30%;
+    width: 30%;
+  }
+
+  .grid div.message {
+    display: none;
+  }
+
+  #title, #sidebar {
+    display: none;
+  }
+
+  .grid {
+    max-height: 85vw;
+    max-width: 85vw;
+    min-height: 85vw;
+    min-width: 85vw;
+  }
+
+  #mobile h1 {
+    font-size: 30px;
+    width: 70vw;
+    text-align: center;
+    transform: none;
+    margin: 20px 0;
+  }
+
+  p {
+    font-family: 'Open Sans Condensed', sans-serif;
+    width: 90%;
+    text-align: center;
+    line-height: 25px;
+  }
+}
