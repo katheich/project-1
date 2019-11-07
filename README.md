@@ -3,7 +3,7 @@
 
 First project of the software engineering immersive course at GA London. The assignment was to create a grid-based game to be rendered in the browser, using HTML, CSS and JavaScript.
 
-Given a list of options from GA, I chose to re-create the classic game Pac-Man. Below I first set out the basic approach and design decisions, before exploring its current limitations and with potential avenues for future developments. Please note that while the game is designed in terms of roombas and cats, this documentation is written in terms of the original Pac-Man lingo, e.g. referring to ghosts and energizers, as the underlying code also uses this jargon. 
+Given a list of options from GA, I chose to re-create the classic game Pac-Man. Below I first set out the basic approach and design decisions, before exploring its current limitations and with potential avenues for future developments. Please note that while the game is designed in terms of roombas and cats, this documentation is written in terms of the original Pac-Man lingo, e.g. referring to _ghosts_ and _energizers_, as the underlying code also uses this jargon. 
 
 
 ## Approach and design choices
