@@ -279,56 +279,50 @@ function main() {
     }
   }
 
-  // ASSIGN AND CLEAR PLAYER CLASSES BASED ON NEW AND PREVIOUS POSITION
-  function assignPlayer(newPosition, oldPosition, direction) {
-    cells[oldPosition].classList.remove('player', 'up', 'right', 'down', 'left')
-    cells[newPosition].classList.add('player', direction)
-  }
-
   document.addEventListener('keydown', e => {
 
     switch (e.key) {
 
       case 'w': {
         const cellIndex = getNeighbourCell(player, 'up')
-        const oldPosition = player        
+        
+        cells[player].classList.remove('player', 'up', 'right', 'down', 'left')     
         player = movePlayer(cellIndex)
-        const newPosition = player
+        cells[player].classList.add('player', 'up')
 
-        assignPlayer(newPosition, oldPosition, 'up')
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         break
       }
 
       case 'd': {
         const cellIndex = getNeighbourCell(player, 'right')
-        const oldPosition = player        
-        player = movePlayer(cellIndex)
-        const newPosition = player
 
-        assignPlayer(newPosition, oldPosition, 'right')      
+        cells[player].classList.remove('player', 'up', 'right', 'down', 'left')     
+        player = movePlayer(cellIndex)
+        cells[player].classList.add('player', 'right')    
+
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         break
       }
 
       case 's': {
         const cellIndex = getNeighbourCell(player, 'down')
-        const oldPosition = player        
-        player = movePlayer(cellIndex)
-        const newPosition = player
 
-        assignPlayer(newPosition, oldPosition, 'down')      
+        cells[player].classList.remove('player', 'up', 'right', 'down', 'left')     
+        player = movePlayer(cellIndex)
+        cells[player].classList.add('player', 'down') 
+
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         break
       } 
 
       case 'a': {
         const cellIndex = getNeighbourCell(player, 'left')
-        const oldPosition = player        
-        player = movePlayer(cellIndex)
-        const newPosition = player
 
-        assignPlayer(newPosition, oldPosition, 'left')      
+        cells[player].classList.remove('player', 'up', 'right', 'down', 'left')     
+        player = movePlayer(cellIndex)
+        cells[player].classList.add('player', 'left')    
+
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         break
       }
@@ -377,10 +371,8 @@ function main() {
         })
         clearInterval(countdownInterval)
         countdown.innerHTML = ''
-      }, 10000)
-      
+      }, 10000)  
     }
-    
   }
 
   // PLAYER COLLIDES WITH GHOST
