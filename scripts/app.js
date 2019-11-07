@@ -39,6 +39,10 @@ function main() {
 
   // COUNTDOWN / INSTRUCTIONS SCREEN
   function countdownScreen() {
+    score = 0
+    scoreCounter.innerHTML = score
+    lives = 3
+    lifeCounter.innerHTML = lives
 
     messageScreen.innerHTML = ''
 
@@ -414,11 +418,6 @@ function main() {
   function runGame() {
 
     grid.removeChild(messageScreen)
-
-    score = 0
-    scoreCounter.innerHTML = score
-    lives = 3
-    lifeCounter.innerHTML = lives
 
     player = 178
     ghostHistories = [[22, 23], [40, 61], [400, 379], [418, 417]]
