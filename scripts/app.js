@@ -9,12 +9,10 @@ function main() {
   const messageScreen = document.querySelector('.message')
   const countdown = document.getElementById('countdown')
 
-  // SET PARAMETERS
+  // GAME VARIABLES
   const width = 21
-  let score = 0
-  let lives = 3
-
-  // EMPTY PLACEHOLDERS
+  let score
+  let lives
   let cells = [] 
   let foodCount
   let frightened 
