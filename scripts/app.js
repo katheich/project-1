@@ -174,10 +174,10 @@ function main() {
   // CELL LOGIC (TO TRAVEL THROUGH EDGES OF THE BOARD)
   function getNeighbourCell(position, direction) {
     switch (direction) {
-      case 'up': return position < 21 ? position + 420 : position - width
-      case 'right': return (position - 20) % 21 === 0 ? position - 20 : position + 1
-      case 'down': return position > 419 ? position - 420 : position + width
-      case 'left' : return position % 21 === 0 ? position + 20 : position - 1
+      case 'up': return position < width ? position + (width * (width - 1)) : position - width
+      case 'right': return (position - (width - 1 )) % width === 0 ? position - (width - 1) : position + 1
+      case 'down': return position > (width * (width - 1)) - 1 ? position - (width * (width - 1)) : position + width
+      case 'left' : return position % width === 0 ? position + (width - 1) : position - 1
     }
   }
 

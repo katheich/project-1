@@ -48,13 +48,13 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
   - `getNeighbourCell`: based on the cell you're on and the direction you're heading, determine which cell is the one you will land on (allows moving through the walls to appear on the opposite side)
     ```js
     function getNeighbourCell(position, direction) {
-        switch (direction) {
-          case 'up': return position < 21 ? position + 420 : position - width
-          case 'right': return (position - 20) % 21 === 0 ? position - 20 : position + 1
-          case 'down': return position > 419 ? position - 420 : position + width
-          case 'left' : return position % 21 === 0 ? position + 20 : position - 1
-        }
+      switch (direction) {
+        case 'up': return position < width ? position + (width * (width - 1)) : position - width
+        case 'right': return (position - (width - 1 )) % width === 0 ? position - (width - 1) : position + 1
+        case 'down': return position > (width * (width - 1)) - 1 ? position - (width * (width - 1)) : position + width
+        case 'left' : return position % width === 0 ? position + (width - 1) : position - 1
       }
+    }
     ```
 - everything else, i.e. walls, power-ups, player and ghosts, are simply classes assigned to these cells
 
@@ -102,21 +102,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
         newGhost = distances.indexOf(maxDistance)
       }
 
-      // OTHER GHOST COLLISION
-      if (cells[ghostOptions[newGhost]].classList.contains('ghost')) {
-        ghostHistory = ghostHistory.reverse()
-      } else {
-        ghostHistory = [ghostOptions[newGhost], ghostHistory[0]]
-      }
-      cells[ghostHistory[1]].classList.remove('ghost')
-      cells[ghostHistory[0]].classList.add('ghost')
-
-      // COLLISION WITH PLAYER
-      if (cells[ghostHistory[0]].classList.contains('player') || playerShadow.includes(ghostHistory[0])) {
-        ghostHistory = collideWithGhost(ghostHistory)
-      } 
-
-      return ghostHistory
+      (...)
     }
   }
 ```
