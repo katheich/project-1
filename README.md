@@ -11,7 +11,7 @@ Given a list of options from GA, I chose to re-create the classic game **Pac-Man
 
 You can launch the game on GitHub pages [here](https://katheich.github.io/project-1/), or find the GitHub repo [here](https://github.com/katheich/project-1).
 
-## Brief ![Vaccuum](/images/cat.png)
+## Brief
 
 - **Render a game in the browser**
 - **Design logic for winning & visually display which player won**
@@ -21,7 +21,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
 - **Deploy your game online**, where the rest of the world can access it
 - Use **semantic markup** for HTML and CSS (adhere to best practices)
 
-## Technologies used ![Chair](/images/chairs.png)
+## Technologies used ![Sock](/images/sock.png)
 
 - HTML
 - CSS
@@ -30,7 +30,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
 - Photoshop
 - Google Fonts
 
-## Approach taken ![Vaccuum](/images/vacuum270.png)
+## Approach
 
 ### Board layout 
 
@@ -215,7 +215,7 @@ At all times various variables are used to keep track of things happening in the
 ```
 
 
-## Screenshots ![Vaccuum](/images/vacuum.png)
+## Screenshots
 
 ![Start screen](/images/screenshots/start-screen.png)
 
@@ -236,7 +236,7 @@ At all times various variables are used to keep track of things happening in the
 - collisions still not 100% reliable
 - some trouble with firefox on linux apparently
 
-## Future features ![Sock](/images/sock.png)
+## Future features
 
 - server-side saved scoreboard
 - mobile-compatibility
