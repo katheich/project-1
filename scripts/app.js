@@ -283,44 +283,36 @@ function main() {
 
       case 'w': {
         const cellIndex = getNeighbourCell(player, 'up')
-        
         cells[player].classList.remove('player', 'up', 'right', 'down', 'left')     
         player = movePlayer(cellIndex)
         cells[player].classList.add('player', 'up')
-
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         break
       }
 
       case 'd': {
         const cellIndex = getNeighbourCell(player, 'right')
-
         cells[player].classList.remove('player', 'up', 'right', 'down', 'left')     
         player = movePlayer(cellIndex)
         cells[player].classList.add('player', 'right')    
-
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         break
       }
 
       case 's': {
         const cellIndex = getNeighbourCell(player, 'down')
-
         cells[player].classList.remove('player', 'up', 'right', 'down', 'left')     
         player = movePlayer(cellIndex)
         cells[player].classList.add('player', 'down') 
-
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         break
       } 
 
       case 'a': {
         const cellIndex = getNeighbourCell(player, 'left')
-
         cells[player].classList.remove('player', 'up', 'right', 'down', 'left')     
         player = movePlayer(cellIndex)
         cells[player].classList.add('player', 'left')    
-
         playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
         break
       }
