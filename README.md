@@ -11,7 +11,7 @@ Given a list of options from GA, I chose to re-create the classic game **Pac-Man
 
 You can launch the game on GitHub pages [here](https://katheich.github.io/project-1/), or find the GitHub repo [here](https://github.com/katheich/project-1).
 
-## Brief
+## Brief ![Vaccuum](/images/cat.png)
 
 - **Render a game in the browser**
 - **Design logic for winning & visually display which player won**
@@ -21,7 +21,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
 - **Deploy your game online**, where the rest of the world can access it
 - Use **semantic markup** for HTML and CSS (adhere to best practices)
 
-## Technologies used
+## Technologies used ![Chair](/images/chairs.png)
 
 - HTML
 - CSS
@@ -30,9 +30,9 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
 - Photoshop
 - Google Fonts
 
-## Approach taken
+## Approach taken ![Vaccuum](/images/vacuum270.png)
 
-### Board layout ![Chair](/images/chairs.png)
+### Board layout 
 
 - kept a single array of continuously increasing numbers to track the cells
 - created two basic functions to navigate this array as intended:
@@ -58,7 +58,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
   ```
 - everything else, i.e. walls, power-ups, player and ghosts, are simply classes assigned to these cells
 
-### Ghost movement ![Chair](/images/cat.png)
+### Ghost movement 
 - like in original game, ghosts only look one move ahead
 - consider for each ghost the 4 possible options it could move to and narrow it down
 - cannot move into walls or backwards, so choices only need to be made at intersections
@@ -122,7 +122,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
 ```
 
 
-### Game timing ![Vaccuum](/images/vacuum270.png)
+### Game timing 
 - Ghosts are on set intervals, moving one at a time using the algorithm in `moveGhost`
   ```js 
     ghostInterval = setInterval(() => {
@@ -147,7 +147,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
   }
   ```
 
-### Collisions ![Frightened cat](/images/cat-frightened.png)
+### Collisions 
 - as overlap of classes could be too brief to detect all collisions reliably (if timed correctly, pac-man could 'pass through' a ghost), implemented a player shadow around all cells of the player that would all be considered as collisions if a ghost hit them
   ```js
   playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
@@ -170,7 +170,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
     } 
     ```
 
-### Power-ups and 'frightened' state ![Sock](/images/sock.png)
+### Power-ups and 'frightened' state 
 - when pac-man eats an energizer, a boolean 'frightened' is toggled from false to true for 10 seconds
 - if another energizer is consumed when the boolean was already true, the timer is reset to 10 seconds from the last energizer
 - various behaviours are different when this boolean is true, namely:
@@ -179,7 +179,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
   3) the CSS class frightened changes the look of the ghosts
 - a countdown was added to alert the player of the time the game is remaining in the frightened state
 
-### Variables ![Dust](/images/dust.png)
+### Variables 
 At all times various variables are used to keep track of things happening in the game:
 
 - `player`: the index of the cell the player is on
@@ -215,7 +215,7 @@ At all times various variables are used to keep track of things happening in the
 ```
 
 
-## Screenshots
+## Screenshots ![Vaccuum](/images/vacuum.png)
 
 ![Start screen](/images/screenshots/start-screen.png)
 
@@ -231,12 +231,12 @@ At all times various variables are used to keep track of things happening in the
 
 ![Mobile screen](/images/screenshots/mobile.png)
 
-## Bugs
+## Bugs ![Frightened cat](/images/cat-frightened.png)
 
 - collisions still not 100% reliable
 - some trouble with firefox on linux apparently
 
-## Future features
+## Future features ![Sock](/images/sock.png)
 
 - server-side saved scoreboard
 - mobile-compatibility
