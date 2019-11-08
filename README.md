@@ -37,25 +37,25 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
 - kept a single array of continuously increasing numbers to track the cells
 - created two basic functions to navigate this array as intended:
   - `getXY`: for each cell, calculate the X and Y coordinate (used for distance calculations)
-  ```js
-   function getXY(position) {
-    const y = Math.floor(position / width) + 1
-    const x = position % width + 1                                       
+    ```js
+    function getXY(position) {
+      const y = Math.floor(position / width) + 1
+      const x = position % width + 1                                       
 
-    return [x, y]
-  }
-  ```
-  - `getNeighbourCell`: based on the cell you're on and the direction you're heading, determine which cell is the one you will land on (allows moving through the walls to appear on the opposite side)
-  ```js
-  function getNeighbourCell(position, direction) {
-      switch (direction) {
-        case 'up': return position < 21 ? position + 420 : position - width
-        case 'right': return (position - 20) % 21 === 0 ? position - 20 : position + 1
-        case 'down': return position > 419 ? position - 420 : position + width
-        case 'left' : return position % 21 === 0 ? position + 20 : position - 1
-      }
+      return [x, y]
     }
-  ```
+    ```
+  - `getNeighbourCell`: based on the cell you're on and the direction you're heading, determine which cell is the one you will land on (allows moving through the walls to appear on the opposite side)
+    ```js
+    function getNeighbourCell(position, direction) {
+        switch (direction) {
+          case 'up': return position < 21 ? position + 420 : position - width
+          case 'right': return (position - 20) % 21 === 0 ? position - 20 : position + 1
+          case 'down': return position > 419 ? position - 420 : position + width
+          case 'left' : return position % 21 === 0 ? position + 20 : position - 1
+        }
+      }
+    ```
 - everything else, i.e. walls, power-ups, player and ghosts, are simply classes assigned to these cells
 
 ### Ghost movement 
@@ -154,12 +154,14 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/projec
   ```
 - checks for collisions both in the moves of the ghosts and the player
   - in `moveGhost`:
+
     ```js
     if (cells[ghostHistory[0]].classList.contains('player') || playerShadow.includes(ghostHistory[0])) {
       ghostHistory = collideWithGhost(ghostHistory)
     } 
     ```
   - in `movePlayer`:
+  
     ```js
     else if (newPosition.classList.contains('ghost')) {
         for (let i = 0; i < 4; i++) {
