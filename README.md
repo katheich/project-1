@@ -1,6 +1,6 @@
 
 ### ![GA](https://cloud.githubusercontent.com/assets/40461/8183776/469f976e-1432-11e5-8199-6ac91363302b.png) General Assembly, Software Engineering Immersive
-# Project #1: Vac-Man 
+# Vac-Man 
  
 
 ## Overview
@@ -9,7 +9,7 @@ This is my first project of the software engineering immersive course at GA Lond
 
 Given a list of options from GA, I chose to re-create the classic game **Pac-Man**. Please note that while the game is designed in terms of roombas and cats, this documentation is written in terms of the original Pac-Man lingo, e.g. referring to _ghosts_ and _energizers_, as the underlying code also uses this jargon. 
 
-You can launch the game on GitHub pages [here](https://katheich.github.io/project-1/), or find the GitHub repo [here](https://github.com/katheich/project-1).
+You can launch the game on GitHub pages [here](https://katheich.github.io/vac-man/), or find the GitHub repo [here](https://github.com/katheich/vac-man).
 
 ## Brief
 
