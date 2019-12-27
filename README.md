@@ -221,10 +221,9 @@ At all times various variables are used to keep track of things happening in the
 
 ## Bugs ![Frightened cat](/images/cat-frightened.png)
 
-- collisions still not 100% reliable
-- some trouble with firefox on linux apparently
+- collisions still not 100% reliable - sometimes pac-man can 'pass through' a ghost
 
-## Future features
+## Potential future features
 
 - server-side saved scoreboard
 - mobile-compatibility
@@ -234,7 +233,8 @@ At all times various variables are used to keep track of things happening in the
 
 ## Lessons learned
 
-- 
+- Adding a 'play again' feature was more trouble than anticipated, as initially the new grid would just be added to the array of the old grid, and show everything happening there was not visible. As a solution, the centre screen gets wiped completely every time something new is displayed.
+- Though in theory collisions based on pac-man and the ghost being on the same cell should suffice, due to the processing lag, it was necessary to add a 'player shadow' to allow for collisions to be correctly detected in a wider area (and it's still not working all the time!)
 
 ## Artwork and credit
 
