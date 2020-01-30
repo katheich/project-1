@@ -58,7 +58,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
     ```
 - everything else, i.e. walls, power-ups, player and ghosts, are simply classes assigned to these cells
 
-- the grid layout was planned in excel and turn into a corresponding array
+- the grid layout was planned in excel and turned into a corresponding array
 
   <img src="./images/screenshots/gridassignment.png" width="400" />
 
