@@ -27,7 +27,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
 - CSS
 - JavaScript (ES6)
 - Git and GitHub
-- Photoshop
+- Photoshop Elements
 - Google Fonts
 
 ## Approach
@@ -57,6 +57,10 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
     }
     ```
 - everything else, i.e. walls, power-ups, player and ghosts, are simply classes assigned to these cells
+
+- the grid layout was planned in excel and turn into a corresponding array
+
+  <img src="./images/screenshots/gridassignment.png" width="400" />
 
 ### Ghost movement 
 - like in original game, ghosts only look one move ahead
