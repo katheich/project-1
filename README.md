@@ -35,8 +35,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
 
 ### Board layout 
 
-- Used a single array of continuously increasing numbers to track the cells
-- Created two basic functions to navigate this array as intended:
+- I decided to use a single array of continuously increasing numbers to track the cells and create two functions that woud allow navigating this array as intended:
   - `getXY`: for each cell, calculate the X and Y coordinate (used for distance calculations)
     ```js
     function getXY(position) {
@@ -57,17 +56,39 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
       }
     }
     ```
-- Everything else, i.e. walls, power-ups, player and ghosts, are simply classes assigned to these cells
-
-- The grid layout was planned in Excel and turned into a corresponding array
+- Everything else, i.e. walls, power-ups, player and ghosts, are simply classes assigned to these cells. The layout of these types of cells was planned in Excel and turned into a corresponding array that assigns the relevant classes at the start of the game.
 
   <img src="./images/screenshots/gridassignment.png" width="400" />
 
+  ```js
+      const board = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 3, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 3, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 4, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 4, 4, 4, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 4, 4, 4, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 4, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 3, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 3, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]  
+    
+    // SET UP GAME BOARD
+    for (let i = 0; i < width ** 2; i++){
+      const cell = document.createElement('div')
+      cell.classList.add('cell')
+
+      const cellClass = board[i] 
+
+      switch (cellClass) {
+        case 1: cell.classList.add('wall'); break
+        case 2: cell.classList.add('food'); break
+        case 3: cell.classList.add('energizer'); break
+        case 4: cell.classList.add('ghostpen'); break
+      }
+
+      grid.appendChild(cell)
+      cells.push(cell)
+    }  
+  ```
+
 ### Ghost movement 
-- A single function is used to determine each ghost's movement. Like in original game, ghosts only look one move ahead. The function starts from considering the 4 possible options that a ghost could move to and starts to narrow them down as follows:
+- A single function is used to determine each ghost's movement. As in the original game, ghosts only look one move ahead. The function starts from considering the 4 possible options that a ghost could move to and narrows them down as follows:
   - Since ghosts cannot move into walls or backwards, choices only need to be made at intersections.
-  - At an intersection, the as-the-crow-flies distance (straight line, ignores walls) to pac-man is calculated from each option and the one that is closest (in frightened state, pick the one that is furthest) is selected.
+  - At an intersection, the as-the-crow-flies distance (straight line, ignores walls) to Pac-Man is calculated using Pythagora's formula from each option and the cell that is closest (or in frightened state, furthest) is selected.
+
 - All ghosts move the same way in the same interval, the different behaviour solely emerges from different starting points.
+
 - In order to avoid the ghosts 'fusing together' as a result, if two ghosts bump into each other, they will reverse and keep going. 
 
 ```js
@@ -164,11 +185,14 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
 
 ### Power-ups and 'frightened' state 
 - When pac-man eats an energizer, a global boolean 'frightened' is toggled from false to true for 10 seconds.
+
 - If another energizer is consumed when the boolean already had the value true, the timer is reset to 10 seconds from the time of consumption of the last energizer.
+
 - Various behaviours are different when this boolean is true, namely:
   1) Ghosts choose the cell furthest away from pac-man, not closest
   2) If pac-man collides with a ghost, 100 points are added to the score and the ghost is relocated to the ghost-pen
   3) The CSS class frightened changes the look of the ghosts
+  
 - A countdown was added to alert the player of the time the game is remaining in the frightened state.
 
 ### Variables 
