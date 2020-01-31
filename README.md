@@ -35,8 +35,8 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
 
 ### Board layout 
 
-- kept a single array of continuously increasing numbers to track the cells
-- created two basic functions to navigate this array as intended:
+- Used a single array of continuously increasing numbers to track the cells
+- Created two basic functions to navigate this array as intended:
   - `getXY`: for each cell, calculate the X and Y coordinate (used for distance calculations)
     ```js
     function getXY(position) {
@@ -57,19 +57,18 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
       }
     }
     ```
-- everything else, i.e. walls, power-ups, player and ghosts, are simply classes assigned to these cells
+- Everything else, i.e. walls, power-ups, player and ghosts, are simply classes assigned to these cells
 
-- the grid layout was planned in Excel and turned into a corresponding array
+- The grid layout was planned in Excel and turned into a corresponding array
 
   <img src="./images/screenshots/gridassignment.png" width="400" />
 
 ### Ghost movement 
-- like in original game, ghosts only look one move ahead
-- consider for each ghost the 4 possible options it could move to and narrow it down
-- cannot move into walls or backwards, so choices only need to be made at intersections
-- at intersection, calculate as-the-crow-flies distance (straight line, ignores walls) to pac-man from each option and pick the one that is closest (in frightened state, pick the one that is furthest)
-- moving all ghosts the same way in the same interval, different behaviour emerges from different starting points alone
-- in order to avoid them 'fusing together' as a result, if two ghosts bump into each other, they will reverse 
+- A single function is used to determine each ghost's movement. Like in original game, ghosts only look one move ahead. The function starts from considering the 4 possible options that a ghost could move to and starts to narrow them down as follows:
+  - Since ghosts cannot move into walls or backwards, choices only need to be made at intersections.
+  - At an intersection, the as-the-crow-flies distance (straight line, ignores walls) to pac-man is calculated from each option and the one that is closest (in frightened state, pick the one that is furthest) is selected.
+- All ghosts move the same way in the same interval, the different behaviour solely emerges from different starting points.
+- In order to avoid the ghosts 'fusing together' as a result, if two ghosts bump into each other, they will reverse and keep going. 
 
 ```js
   function moveGhost(ghostHistory) {
@@ -114,7 +113,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
 
 
 ### Game timing 
-- Ghosts are on set intervals, moving one at a time using the algorithm in `moveGhost`
+- Ghosts are on set intervals, moving one at a time using the algorithm in `moveGhost` which was described above.
   ```js 
     ghostInterval = setInterval(() => {
       for (let i = 0; i < 4; i++) {
@@ -122,7 +121,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
       }
     }, 300)
   ```
-- Eventlistener on window for WASD input from player
+- For the player, there is an Eventlistener on the window, listening for WASD input from the player.
   ```js
     document.addEventListener('keydown', e => {
     switch (e.key) {
@@ -139,11 +138,11 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
   ```
 
 ### Collisions 
-- as overlap of classes could be too brief to detect all collisions reliably (if timed correctly, pac-man could 'pass through' a ghost), implemented a player shadow around all cells of the player that would all be considered as collisions if a ghost hit them
+- As an overlap of classes could be too brief to detect all collisions reliably (i.e. if timed correctly, pac-man could 'pass through' a ghost), I implemented a player shadow around all cells of the player that would all be considered as collisions if a ghost hit them.
   ```js
   playerShadow = [getNeighbourCell(player, 'up'), getNeighbourCell(player, 'right'), getNeighbourCell(player, 'down'), getNeighbourCell(player, 'left')]
   ```
-- checks for collisions both in the moves of the ghosts and the player
+- There are checks for collisions both in the movements of the ghosts and the player
   - in `moveGhost`:
 
     ```js
@@ -164,13 +163,13 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
     ```
 
 ### Power-ups and 'frightened' state 
-- when pac-man eats an energizer, a boolean 'frightened' is toggled from false to true for 10 seconds
-- if another energizer is consumed when the boolean was already true, the timer is reset to 10 seconds from the last energizer
-- various behaviours are different when this boolean is true, namely:
-  1) ghosts choose the cell furthest away from pac-man, not closest
-  2) if pac-man collides with a ghost, 100 points are added to the score and the ghost is relocated to the ghost-pen
-  3) the CSS class frightened changes the look of the ghosts
-- a countdown was added to alert the player of the time the game is remaining in the frightened state
+- When pac-man eats an energizer, a global boolean 'frightened' is toggled from false to true for 10 seconds.
+- If another energizer is consumed when the boolean already had the value true, the timer is reset to 10 seconds from the time of consumption of the last energizer.
+- Various behaviours are different when this boolean is true, namely:
+  1) Ghosts choose the cell furthest away from pac-man, not closest
+  2) If pac-man collides with a ghost, 100 points are added to the score and the ghost is relocated to the ghost-pen
+  3) The CSS class frightened changes the look of the ghosts
+- A countdown was added to alert the player of the time the game is remaining in the frightened state.
 
 ### Variables 
 At all times various variables are used to keep track of things happening in the game:
@@ -185,7 +184,7 @@ At all times various variables are used to keep track of things happening in the
 
 ### Non-game screens
 
-- always wipe the grid at the centre of the screen and display a new message div over it
+- To simplify the display, I decided to always wipe the grid at the centre of the screen and display a new message div over it. For instance, when the game ends, the following function is called:
 
 ```js
 // END GAME SCREEN
@@ -226,19 +225,20 @@ At all times various variables are used to keep track of things happening in the
 
 ## Bugs ![Frightened cat](/images/cat-frightened.png)
 
-- collisions still not 100% reliable - sometimes pac-man can 'pass through' a ghost
+- In spite of the 'player shadow' described above, the collisions are still not 100% reliable - sometimes pac-man can 'pass through' a ghost.
 
 ## Potential future features
 
-- server-side saved scoreboard
-- mobile-compatibility
-- different behaviour for each 'ghost', more complexity
-- further levels
+- Server-side saved scoreboard
+- Mobile-compatibility
+- Different behaviour for each 'ghost', more complexity
+- Further levels
 
 
 ## Lessons learned
 
-- Adding a 'play again' feature was more trouble than anticipated, as initially the new grid would just be added to the array of the old grid, and show everything happening there was not visible. As a solution, the centre screen gets wiped completely every time something new is displayed.
+- Adding a 'play again' feature was more trouble than anticipated, as initially the new grid would just be added to the array of the old grid, so everything happening there was not visible. As a solution, the centre screen gets wiped completely every time something new is displayed.
+
 - Though in theory collisions based on pac-man and the ghost being on the same cell should suffice, due to the processing lag, it was necessary to add a 'player shadow' to allow for collisions to be correctly detected in a wider area (and it's still not working all the time!)
 
 ## Artwork and credit
