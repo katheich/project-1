@@ -85,7 +85,7 @@ You can launch the game on GitHub pages [here](https://katheich.github.io/vac-ma
 ### Ghost movement 
 - A single function is used to determine each ghost's movement. As in the original game, ghosts only look one move ahead. The function starts from considering the 4 possible options that a ghost could move to and narrows them down as follows:
   - Since ghosts cannot move into walls or backwards, choices only need to be made at intersections.
-  - At an intersection, the as-the-crow-flies distance (straight line, ignores walls) to Pac-Man is calculated using Pythagora's formula from each option and the cell that is closest (or in frightened state, furthest) is selected.
+  - At an intersection, the as-the-crow-flies distance (straight line, ignores walls) to Pac-Man is calculated using Pythagoras' formula from each option and the cell that is closest (or in frightened state, furthest) is selected.
 
 - All ghosts move the same way in the same interval, the different behaviour solely emerges from different starting points.
 
