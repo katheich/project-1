@@ -200,7 +200,7 @@ At all times various variables are used to keep track of things happening in the
 
 - `player`: the index of the cell the player is on
 - `playerShadow`: keeps track of all cells around the player in an array, to improve collision detection
-- `ghostHistories`: the location of all 4 ghosts in an array, in which each ghost has their own array of their current and immediately preceding position (also as cell indeces)
+- `ghostHistories`: the location of all 4 ghosts in an array, in which each ghost has their own array of their current and immediately preceding position (also as cell indices)
 - `frightened`: a boolean that is at all times either false (base state) or true (for 10 seconds after an _energizer_ is consumed)
 - `score`: every time the player moves onto a cell with the _food_ class on it, 1 is added to the score; if the player collides with a _ghost_ while the state _frightened_ is true, 100 is added to the score.
 - `lives`: starts at 3 and every time the player collides with a non-frightened _ghost_, 1 life is taken away; if `lives === 0`, the player has lost and the game ends.
